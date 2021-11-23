@@ -1,7 +1,12 @@
 package com.aktog.yusuf.npuzzlegame.game;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.basic.BasicIconFactory;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 
 public class GamePanel extends JPanel {
 
@@ -36,7 +41,7 @@ public class GamePanel extends JPanel {
 
     private void drawGrid(Graphics g) {
 
-        g.setColor(Color.red);
+        g.setColor(Color.black);
         Graphics2D g2 = (Graphics2D) g;
 
         for (int i = 0; i <= gameBoard.getN(); i++) {
@@ -54,16 +59,41 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         int fontSize = Cell.WIDTH / 4;
         gameBoard.printBoard();
-        g2.setFont(new Font("Ink Free", Font.BOLD, fontSize));
+        Font buttonFont = new Font("Ink Free", Font.BOLD, fontSize);
+        g2.setFont(buttonFont);
+
         for (Cell[] cells : gameBoard.getBoard()) {
             for (Cell cell : cells) {
+                this.add(cell);
+                cell.setBackground(Color.blue);
 
-                g2.setColor(Color.red);
 
-                if (cell.isEmptyCell()) {
+                cell.setBorder(BorderFactory.createRaisedBevelBorder());
+
+                cell.setBounds(cell.getX(), cell.getY(), Cell.WIDTH * 9 / 10, Cell.HEIGHT * 9 / 10);
+                cell.setVisible(true);
+                cell.setText(cell.getValue());
+                cell.setFont(buttonFont);
+                cell.setFocusPainted(false);
+
+                cell.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("action fired");
+                    }
+                });
+
+
+/*                if (cell.isEmptyCell())
                     g2.setColor(new Color(255, 0, 0, 40));
-                }
-                g2.drawString(cell.getValue(), cell.getX() + Cell.WIDTH / 2 - fontSize / 3, cell.getY() + Cell.HEIGHT / 2);
+                else
+                    g2.setColor(Color.red);*/
+/*                g2.setColor(new Color(200,200,150,200));
+                g2.fillRoundRect(cell.getX()  ,cell.getY() ,Cell.WIDTH*9/10,Cell.HEIGHT*9/10,30,30);
+
+
+                g2.drawString(cell.getValue(), cell.getX() + Cell.WIDTH / 2 - fontSize / 2, cell.getY() + Cell.HEIGHT / 2);*/
+
 
             }
         }

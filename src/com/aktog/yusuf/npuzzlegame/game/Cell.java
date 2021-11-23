@@ -1,12 +1,16 @@
 package com.aktog.yusuf.npuzzlegame.game;
 
-public class Cell {
+import javax.swing.*;
+
+public class Cell extends JButton {
+
     public static final int WIDTH = GamePanel.PANEL_WIDTH  / GamePanel.BOARD_SIZE  ;
     public static final int HEIGHT = GamePanel.PANEL_HEIGHT / GamePanel.BOARD_SIZE;
 
     private int x,y;
     private boolean emptyCell;
     private String value;
+
 
     public Cell(int x, int y, String value) {
         this.x = x;
