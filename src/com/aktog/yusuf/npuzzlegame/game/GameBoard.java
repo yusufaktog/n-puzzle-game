@@ -25,11 +25,10 @@ public class GameBoard {
     private void fillBoard() {
         int randomX = rollIndex(n);
         int randomY = rollIndex(n);
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
 
-                board[i][j] = new Cell(j * Cell.WIDTH + Cell.WIDTH / 2, i* Cell.HEIGHT + Cell.HEIGHT / 2,  rollValue(), i == randomX && j == randomY);
+                board[i][j] = new Cell(j * Cell.WIDTH + Cell.WIDTH / 2, i* Cell.HEIGHT + Cell.HEIGHT / 2, rollValue() , i == randomX && j == randomY);
                 board[i][j].blurCell();
             }
         }

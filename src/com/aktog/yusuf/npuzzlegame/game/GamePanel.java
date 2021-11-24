@@ -2,8 +2,6 @@ package com.aktog.yusuf.npuzzlegame.game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static java.awt.Cursor.HAND_CURSOR;
 
@@ -78,7 +76,9 @@ public class GamePanel extends JPanel {
                     cell.setCursor(new Cursor(HAND_CURSOR));
                     cell.addActionListener(e -> {
                         if (e.getSource() == cell) {
-                            System.out.println(cell.getX()+","+cell.getY());
+                            System.out.println(cell.getX() + "," + cell.getY());
+                            if (checkWinCondition())
+                                JOptionPane.showMessageDialog(null, "WIN", "!Congrats", JOptionPane.INFORMATION_MESSAGE);
                             moveCell(cell);
                             repaint();
                         }
@@ -88,24 +88,25 @@ public class GamePanel extends JPanel {
             }
         }
     }
-    public void debug(Cell clickedCell){
+
+    public void debug(Cell clickedCell) {
         Cell emptyCell = determineEmptyCell();
 
-        int x1 = (Cell.HEIGHT/2 + clickedCell.getY())/200 - 1;
-        int y1 = (clickedCell.getX() + Cell.WIDTH/2) / 200 - 1;
+        int x1 = (Cell.HEIGHT / 2 + clickedCell.getY()) / 200 - 1;
+        int y1 = (clickedCell.getX() + Cell.WIDTH / 2) / 200 - 1;
 
-        int x2 = (Cell.HEIGHT/2 + emptyCell.getY())/200 - 1;
-        int y2 = (emptyCell.getX() + Cell.WIDTH/2) / 200 - 1;
-        //System.out.println(x1 + "," + y1);
-        //System.out.println("expected: " + gameBoard.getBoard()[x1][y1].getValue() + " <==> actual:" + clickedCell.getValue());
-        //System.out.println(gameBoard.getBoard()[x1][y1].getValue());
+        System.out.println(x1 + "," + y1);
 
-        //System.out.println(x2 + "," + y2);
+        int x2 = (Cell.HEIGHT / 2 + emptyCell.getY()) / 200 - 1;
+        int y2 = (emptyCell.getX() + Cell.WIDTH / 2) / 200 - 1;
 
-        //System.out.println(gameBoard.getBoard()[x2][y2].getValue() + "===?" + emptyCell.getValue());
+        System.out.println(x2 + "," + y2);
     }
 
-    public void moveCell(Cell cell) {
+    public boolean moveCell(Cell cell) {
+        if (!hasNeighbourEmptyCell(cell))
+            return false;
+
         Cell emptyCell = determineEmptyCell();
 
 
@@ -121,6 +122,7 @@ public class GamePanel extends JPanel {
 
 
         swapWith(cell);
+        return true;
     }
 
     public Cell determineEmptyCell() {
@@ -136,13 +138,13 @@ public class GamePanel extends JPanel {
     public void swapWith(Cell clickedCell) {
         Cell emptyCell = determineEmptyCell();
 
-        int x1 = (Cell.HEIGHT/2 + clickedCell.getY())/200 - 1;
-        int y1 = (clickedCell.getX() + Cell.WIDTH/2) / 200 - 1;
+        int x1 = (Cell.HEIGHT / 2 + clickedCell.getY()) / 200 - 1;
+        int y1 = (clickedCell.getX() + Cell.WIDTH / 2) / 200 - 1;
 
         System.out.println(gameBoard.getBoard()[x1][y1].getValue() + "===?" + clickedCell.getValue());
 
-        int x2 = (Cell.HEIGHT/2 + emptyCell.getY())/200 - 1;
-        int y2 = (emptyCell.getX() + Cell.WIDTH/2) / 200 - 1;
+        int x2 = (Cell.HEIGHT / 2 + emptyCell.getY()) / 200 - 1;
+        int y2 = (emptyCell.getX() + Cell.WIDTH / 2) / 200 - 1;
         System.out.println(gameBoard.getBoard()[x2][y2].getValue() + "===?" + emptyCell.getValue());
 
         Cell temp = gameBoard.getBoard()[x1][y1];
@@ -155,19 +157,63 @@ public class GamePanel extends JPanel {
 
     public boolean hasNeighbourEmptyCell(Cell cell) {
 
+        int x1 = (Cell.HEIGHT / 2 + cell.getY()) / 200 - 1;
+        int y1 = (cell.getX() + Cell.WIDTH / 2) / 200 - 1;
+
+
+        Cell[][] board = gameBoard.getBoard();
+        System.out.println(board[x1][y1].getValue());
         try {
-            for (int i = 0; i < gameBoard.getN(); i++) {
-                for (int j = 0; j < gameBoard.getN(); j++) {
+            // cell below is empty cell
+            if (board[x1][y1 + 1].isEmptyCell())
+                return true;
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
 
-                }
+        try {
+            // cell above is empty cell
+            if (board[x1][y1 - 1].isEmptyCell())
+                return true;
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+        try {
+            // left cell is empty cell
+            if (board[x1 - 1][y1].isEmptyCell())
+                return true;
 
-            }
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+        try {
+            // right below is empty cell
+            if (board[x1 + 1][y1].isEmptyCell())
+                return true;
 
 
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         return false;
     }
 
+    private String generateWinPattern() {
+        StringBuilder pattern = new StringBuilder();
+        for (int i = 0; i < gameBoard.getN() * gameBoard.getN(); i++) {
+
+            pattern.append(i + 1);
+
+        }
+        return pattern.toString();
+    }
+
+    public boolean checkWinCondition() {
+        StringBuilder currentPattern = new StringBuilder();
+
+        for (Cell[] cells : gameBoard.getBoard()) {
+            for (Cell cell : cells) {
+                currentPattern.append(cell.getValue());
+            }
+        }
+        System.out.println(currentPattern + "<===>" + generateWinPattern());
+        return currentPattern.toString().equals(generateWinPattern());
+    }
 
 }
