@@ -9,47 +9,17 @@ public class Cell extends JButton {
     public static final int HEIGHT = GamePanel.PANEL_HEIGHT / GamePanel.BOARD_SIZE;
 
     private int x, y;
-    private boolean emptyCell;
-    private String value;
-    private Color fColor;
-    private Color bColor;
-    private int alpha;
+    private final boolean emptyCell;
+    private final String value;
 
-    public Cell(int x, int y, String value, Boolean isEmptyCell) {
+
+    public Cell(int x, int y, String value, Boolean emptyCell) {
+        super();
         this.x = x;
         this.y = y;
         this.value = value;
-        this.emptyCell = isEmptyCell;
-        alpha = 255;
-        fColor = new Color(255, 0, 0, alpha);
-        bColor = new Color(0, 0, 255, alpha);
-    }
-
-    public void setEmptyCell(boolean emptyCell) {
         this.emptyCell = emptyCell;
-    }
-
-    public void blurCell(){
-        if(emptyCell){
-            this.setEnabled(false);
-            this.setBackground(Color.black);
-            this.setForeground(Color.black);
-        }
-    }
-    public Color getfColor() {
-        return fColor;
-    }
-
-    public void setfColor(Color fColor) {
-        this.fColor = fColor;
-    }
-
-    public Color getbColor() {
-        return bColor;
-    }
-
-    public void setbColor(Color bColor) {
-        this.bColor = bColor;
+        initCell();
     }
 
     public int getX() {
@@ -72,23 +42,15 @@ public class Cell extends JButton {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public boolean isEmptyCell() {
         return emptyCell;
     }
 
-    public void setEmpty(boolean emptyCell) {
-        this.emptyCell = emptyCell;
+    private void initCell() {
+        ButtonLoader.loadPreferences(this,
+                Color.red,
+                Color.blue,
+                new Font("Ink Free", Font.BOLD, Cell.WIDTH / 4));
     }
 
-    public int getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
-    }
 }

@@ -3,6 +3,9 @@ package com.aktog.yusuf.npuzzlegame.game;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.aktog.yusuf.npuzzlegame.game.Cell.HEIGHT;
+import static com.aktog.yusuf.npuzzlegame.game.Cell.WIDTH;
+
 public class GameBoard {
     private final int n;
     private final Cell[][] board;
@@ -17,21 +20,16 @@ public class GameBoard {
     }
 
     private void fillValuePool() {
-        for (int i = 0; i < n * n; i++) {
-            valuePool.add(i + 1);
-        }
+        for (int i = 0; i < n * n; i++) valuePool.add(i + 1);
     }
 
     private void fillBoard() {
+
         int randomX = rollIndex(n);
         int randomY = rollIndex(n);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-
-                board[i][j] = new Cell(j * Cell.WIDTH + Cell.WIDTH / 2, i* Cell.HEIGHT + Cell.HEIGHT / 2, rollValue() , i == randomX && j == randomY);
-                board[i][j].blurCell();
-            }
-        }
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                board[i][j] = new Cell(j * WIDTH + (WIDTH / 2), i * HEIGHT + (HEIGHT / 2), rollValue(), i == randomX && j == randomY);
     }
 
     private int rollIndex(int bound) {
@@ -47,11 +45,10 @@ public class GameBoard {
     }
 
     public void printBoard() {
-        for (int i = 0; i < board.length; i++) {
+        for (Cell[] cells : board) {
             for (int j = 0; j < board.length; j++) {
-                System.out.print(board[i][j].getValue() + "\t");
+                System.out.print(cells[j].getValue() + "\t");
             }
-            System.out.println("");
         }
         System.out.println("---------------------------");
     }
