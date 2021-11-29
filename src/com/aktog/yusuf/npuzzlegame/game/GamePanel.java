@@ -8,8 +8,6 @@ public class GamePanel extends JPanel {
 
     static int PANEL_WIDTH = 600;
     static int PANEL_HEIGHT = 600;
-    static final int BOARD_SIZE = 3;
-
     private final GameBoard gameBoard;
 
     static {
@@ -17,10 +15,10 @@ public class GamePanel extends JPanel {
         PANEL_HEIGHT += Cell.HEIGHT;
     }
 
-    public GamePanel() {
-        gameBoard = new GameBoard(BOARD_SIZE);
+    public GamePanel(int difficulty) {
+        gameBoard = new GameBoard(difficulty);
         loadPreferences();
-        addActionsListeners();
+        addActionListeners();
 
     }
 
@@ -52,7 +50,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void addActionsListeners() {
+    private void addActionListeners() {
         for (Cell[] cells : gameBoard.getBoard()) {
             for (Cell cell : cells) {
                 cell.addActionListener(e -> {
