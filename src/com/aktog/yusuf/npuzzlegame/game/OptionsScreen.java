@@ -148,6 +148,9 @@ public class OptionsScreen extends JFrame {
         Cell.WIDTH = GamePanel.PANEL_WIDTH / MyGameFrame.BOARD_SIZE;
         Cell.HEIGHT = GamePanel.PANEL_HEIGHT / MyGameFrame.BOARD_SIZE;
 
+        //adjusted
+        AnimationHandler.fps = Cell.WIDTH;
+
         //re-adjust the panel size to its new values
         GamePanel.PANEL_WIDTH += GamePanel.PANEL_WIDTH / difficulty;
         GamePanel.PANEL_HEIGHT += GamePanel.PANEL_HEIGHT / difficulty;

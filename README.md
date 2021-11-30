@@ -23,5 +23,16 @@ the chosen option.
 
 ---
 
-Game can be played by running .jar file located under the N-Puzzle-Game/dist directory
+Game can be played by executing N-Puzzle-Game.jar file located under out/artifacts/N_Puzzle_GAME_jar directory
 or by running the class named OptionsScreen
+
+### Options Screen
+
+---
+![Screenshot](resources/options_screen.PNG)
+
+### In-game Screen
+
+---
+
+![Screenshot](resources/ingame_screen.PNG)

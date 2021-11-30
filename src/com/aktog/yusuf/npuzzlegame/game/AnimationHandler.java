@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class AnimationHandler {
     public static final int animationSpeed = 1;
-    private static final int fps = Cell.WIDTH;
+    public static int fps = Cell.WIDTH;
 
     public static void animateCell(Cell cell, Cell emptyCell, JPanel panel) {
         String direction = detectMovementDirection(cell, emptyCell);
