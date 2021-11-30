@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class Cell extends JButton {
 
-    public static final int WIDTH = GamePanel.PANEL_WIDTH / MyGameFrame.SIZE;
-    public static final int HEIGHT = GamePanel.PANEL_HEIGHT / MyGameFrame.SIZE;
+    public static int WIDTH = GamePanel.PANEL_WIDTH / MyGameFrame.BOARD_SIZE;
+    public static int HEIGHT = GamePanel.PANEL_HEIGHT / MyGameFrame.BOARD_SIZE;
 
     private int x, y;
     private final boolean emptyCell;
@@ -21,7 +21,6 @@ public class Cell extends JButton {
         this.emptyCell = emptyCell;
         initCell();
     }
-
 
     public int getX() {
         return x;

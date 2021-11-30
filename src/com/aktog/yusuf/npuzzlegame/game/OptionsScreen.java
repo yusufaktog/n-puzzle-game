@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.Iterator;
 
 public class OptionsScreen extends JFrame {
+    public static boolean isMainButtonActivated = false;
     JPanel panel;
     private final ButtonGroup difficultyButtons;
     JButton startButton;
@@ -34,7 +35,7 @@ public class OptionsScreen extends JFrame {
             } catch (NullPointerException x) {
                 JOptionPane.showMessageDialog(null,
                         "PLease choose one of the difficulties...",
-                        "No difficulty selected!",JOptionPane.ERROR_MESSAGE);
+                        "No difficulty selected!", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -92,6 +93,11 @@ public class OptionsScreen extends JFrame {
     }
 
     public static void main(String[] args) {
+        newOptionsScreen();
+
+    }
+
+    public static void newOptionsScreen() {
         SwingUtilities.invokeLater(() -> new OptionsScreen().setVisible(true));
     }
 
@@ -121,7 +127,30 @@ public class OptionsScreen extends JFrame {
     }
 
     public void newGame(int difficulty) {
+
+        if (isMainButtonActivated) {
+            adjustComponentSizes(difficulty);
+        }
+
+        MyGameFrame.BOARD_SIZE = difficulty; // adjust the board size before initialization
+
         SwingUtilities.invokeLater(() -> new MyGameFrame(difficulty).setVisible(true));
+    }
+
+    public static void adjustComponentSizes(int difficulty) {
+        //change panel sizes to its default value
+        GamePanel.PANEL_WIDTH -= Cell.WIDTH;
+        GamePanel.PANEL_HEIGHT -= Cell.HEIGHT;
+
+        MyGameFrame.BOARD_SIZE = difficulty; // adjust the board size before initialization
+
+        // re-calculate the cell sizes, by using the default panel size, according to the new difficulty
+        Cell.WIDTH = GamePanel.PANEL_WIDTH / MyGameFrame.BOARD_SIZE;
+        Cell.HEIGHT = GamePanel.PANEL_HEIGHT / MyGameFrame.BOARD_SIZE;
+
+        //re-adjust the panel size to its new values
+        GamePanel.PANEL_WIDTH += GamePanel.PANEL_WIDTH / difficulty;
+        GamePanel.PANEL_HEIGHT += GamePanel.PANEL_HEIGHT / difficulty;
     }
 
     private void clearOldSelections(AbstractButton exceptSelected) {
@@ -130,7 +159,6 @@ public class OptionsScreen extends JFrame {
             AbstractButton button = it.next();
             if (!button.equals(exceptSelected))
                 button.setBackground(Color.yellow);
-
         }
     }
 

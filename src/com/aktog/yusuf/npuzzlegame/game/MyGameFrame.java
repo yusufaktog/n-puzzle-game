@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class MyGameFrame extends JFrame {
 
-    public static int SIZE;
+    public static int BOARD_SIZE;
 
     GamePanel gamePanel;
     JButton resetButton;
@@ -16,12 +16,8 @@ public class MyGameFrame extends JFrame {
 
     public MyGameFrame(int difficulty) {
         this.difficulty = difficulty;
-        adjustSize(difficulty);
         newGame(difficulty);
         loadPreferences();
-    }
-    public static void adjustSize(int difficulty){
-        SIZE = difficulty;
     }
     final void loadPreferences() {
 
@@ -50,8 +46,9 @@ public class MyGameFrame extends JFrame {
         resetButton.addActionListener(e -> restart());
         exitButton.addActionListener(e -> System.exit(0));
         mainMenuButton.addActionListener(e -> {
+            OptionsScreen.isMainButtonActivated = true;
             this.dispose();
-            new OptionsScreen().setVisible(true);
+            OptionsScreen.newOptionsScreen();
         });
 
     }
