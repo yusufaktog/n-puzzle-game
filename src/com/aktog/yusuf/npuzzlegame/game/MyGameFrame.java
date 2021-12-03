@@ -15,7 +15,6 @@ public class MyGameFrame extends JFrame {
     private final int difficulty;
 
     public MyGameFrame(int difficulty) {
-        this.requestFocus();
         this.difficulty = difficulty;
         newGame(difficulty);
         loadPreferences();

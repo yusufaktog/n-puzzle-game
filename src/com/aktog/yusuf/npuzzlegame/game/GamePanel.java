@@ -16,7 +16,6 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(int difficulty) {
-        this.requestFocus();
         gameBoard = new GameBoard(difficulty);
         loadPreferences();
         addActionListeners();
